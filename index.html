@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
+
+<script src="https://github.com/niklasvh/html2canvas/releases/download/0.4.1/html2canvas.js"></script>
+
+</head>
+
+<style>
+
+
+.paragraph {
+  font-family: Helvetica;
+  font-weight: bold;
+  font-size: 70px;
+  padding-top:50px;
+  max-width: 100%;
+}
+
+a {
+text-decoration: none;
+font-family: Helvetica;
+font-weight: bold;
+color: red;
+border: 2px solid red;
+padding: 5px;
+}
+
+
+
+.row {
+	min-height: 300px;
+	position: relative;
+  text-align: center;
+}
+
+.column_center {
+  display: inline-block;
+  padding: 20px;
+}
+
+
+input {
+  width: 100%;
+  height: 30px;
+  display: block;
+}
+
+@media only screen
+and (max-width : 600px) {
+label {
+  float: none;
+  margin: 0 5px;
+  text-align:center;
+}
+
+
+}
+
+::placeholder {
+    text-align: center;
+}
+:-ms-input-placeholder {
+    text-align: center;
+}
+::-ms-input-placeholder {
+    text-align: center;
+}
+
+</style>
+
+<body>
+
+<div align="center" class="paragraph" id="replace_text_value">HTML to JPEG </div>
+
+
+<div class="row">
+   <form class="column_center">
+     <input id="replace_text" name="replace_text" type="text" placeholder="Type here"/>
+  </form>
+  <a href="#" onClick="convert()">click to convert</a>
+</div>
+
+
+
+
+
+</body>
+
+
+<script>
+$(document).ready(function() {
+	var comp = $("input[name='replace_text']");
+
+	comp.keyup(function() {
+		var replaceText = $("#replace_text").val();
+		$("#replace_text_value").html(replaceText );
+	});
+
+});
+</script>
+
+<script>
+
+var elem = document.querySelector('#replace_text');
+elem.addEventListener('keypress', function(e){
+  if (e.key === "Enter") {
+    convert();
+  }
+});
+
+var convert = function() {
+  html2canvas(document.body, {
+  onrendered: function(canvas) {
+      document.body.appendChild(canvas);
+      leCanvas = document.getElementsByTagName("canvas")[0];
+      var img  = leCanvas.toDataURL("image/jpeg");
+      document.write('<span style="font:14px normal Helvetica, Arial; font-weight: bold; color:#13a6f5; margin-left:16px"></span> <br /><img src="'+img+'"/><br><div style="	min-height: 300px;position: relative; text-align: center;"><a href="'+img+'" style="text-decoration: none; font-family: Helvetica;  font-weight: bold; color: red; border: 2px solid red;padding: 5px;" download>Click here to download</a><br><br><a href="#" onclick="location.reload(true); return false;">Back</a></div>');
+  },
+  height: 155
+});
+}
+</script>
+
+</html>
